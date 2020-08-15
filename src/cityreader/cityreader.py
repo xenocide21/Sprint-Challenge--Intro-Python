@@ -84,7 +84,23 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
     # within will hold the cities that fall within the specified region
     within = []
 
+    alat = lat1 if lat1 > lat2 else lat2
+    blat = lat2 if lat1 > lat2 else lat1
+    alon = lon1 if lon1 > lon2 else lon2
+    blon = lon2 if lon1 > lon2 else lon1
+
     # Go through each city and check to see if it falls within
     # the specified coordinates.
+    import csv
+    with open('cities.csv') as csvfile:
+        read = csv.reader(csvfile)
+        next(read)
+        for city in read:
+            name = city[0]
+            lat = float(city[3])
+            lon = float(city[4])
+
+            if alat > lat > blat and alon > lon > blon:
+                within.append(City(name, lat, lon))
 
     return within
